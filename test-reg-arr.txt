@@ -1,0 +1,61 @@
+//@scope
+//@name
+//@type
+//@value
+
+//Alphabet --------------- A set of letters (make seperately as formality/simplicity)
+
+alpha #= {a,z}{A,Z};
+alphaU #= alpha#_;
+numeral #= {0,9};
+
+//Words & Statements ----- Intrinsic semantics lhs
+
+decimal != [123456789]numeral#*;
+id != alpha#alphaU#*;
+add != id! ($+$ id!)+;
+assign != id! $=$ (add!) | id! $=$ id! | id! $=$ (assign!);
+arrayDeclaration != ;
+arrayGet != id! $arr[1]$ decimal!;
+S != assign!;
+
+type != @type;
+function != type! id! $params(1)$ ((type! id!)*) ${1}$ (body!);
+
+//Semantics --------------
+
+~func type! id! params@LIST body!{
+    
+}
+
+~params(1) params@LIST (type! id!){
+    //
+}
+
+~arr[1] arr[num]{
+    this:type = arr:type
+    this:value = arr:value[num]
+}
+
+~id! id{
+    this:type = SYMBOL
+};
+
+//Assertions end in ';'?
+
+~= lhs = rhs{
+    assert lhs:type == rhs:type
+    lhs:value = rhs:value
+    this = lhs
+};
+
+~+ lhs + rhs{
+    assert lhs:type == rhs:type
+    this:type = lhs:type
+    this:value = lhs:value + rhs:value
+};
+
+~' ' char '{
+    this:type = CHAR
+    this:value = char:name
+};

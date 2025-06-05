@@ -1,0 +1,57 @@
+//@ assign attribute for word/statement
+//= assign Alphabet (set of letters)
+//# read stack until delimeter as alphabet name - insert
+//! read stack until delimeter as word name - insert
+//: scope - any assigned
+//\s space
+//= assign word
+//~ assign semantic function
+//$ read as semantic function
+
+//`a
+
+//@scope
+//@name
+//@type
+//@value
+
+//Alphabet --------------- A set of letters (make seperately as formality/simplicity)
+//`n
+alpha#= {a,z}{A,Z};
+
+//add _ to alpha as alphaU
+alphaU #= alpha#_;
+
+//Words & Statements ----- Intrinsic semantics lhs
+//`w
+id != alpha#alphaU#*;
+add != id! ($+$ id!)+;
+assign != id! $=$ (add!) | id! $=$ id! | id! $=$ (assign!);
+S != assign!;
+
+//Assign semantics to operators/functor instead of identifier
+//Leading to "Production rule templates"
+//Semantics --------------
+//`s
+~id id{
+    this:type = SYMBOL
+};
+
+//Assertions end in ';'?
+
+~= lhs = rhs{
+    assert lhs:type == rhs:type
+    lhs:value = rhs:value
+    this = lhs
+};
+
+~+ lhs + rhs{
+    assert lhs:type == rhs:type
+    this:type = lhs:type
+    this:value = lhs:value + rhs:value
+};
+
+~' ' char '{
+    this:type = CHAR
+    this:value = char:name
+};
